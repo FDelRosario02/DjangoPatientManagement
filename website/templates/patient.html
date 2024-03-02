@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %} 
+
+<div class="card">
+    <h5 class="card-header">{{ patient_record.first_name }} {{ patient_record.last_name }}</h5>
+    <div class="card-body">
+        <h5 class="card-title">Patient Details</h5>
+        
+        <strong>ID:</strong> <p class="card-text">{{ patient_record.id }}</p>
+        <strong>Phone:</strong> <p class="card-text">{{ patient_record.phone }}</p>
+        <strong>Address:</strong> <p class="card-text">{{ patient_record.address }}</p>
+        <strong>City:</strong> <p class="card-text">{{ patient_record.city }}</p>
+        <strong>Email:</strong> <p class="card-text">{{ patient_record.email }}</p>
+        <strong>Blood Type:</strong> <p class="card-text">{{ patient_record.blood_type }}</p>
+        <strong>Allergies:</strong> <p class="card-text">{{ patient_record.allergies }}</p>
+        <strong>Current Medications:</strong> <p class="card-text">{{ patient_record.current_medications }}</p>
+        
+        <!-- Agrega más campos según sea necesario -->
+
+        <a href="{% url "home" %}" class="btn btn-secondary">Back</a>
+        <a href="{% url "update_record" patient_record.id %}" class="btn btn-secondary">Update</a>
+        <a href="{% url "delete_record" patient_record.id %}" class="btn btn-danger">Delete</a>
+    </div>
+</div>
+
+{% endblock %}
