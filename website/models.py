@@ -68,7 +68,8 @@ class Doctor(models.Model):
 #     current_medications = models.TextField
 #     def __str__(self):
 #         return f"{self.first_name} {self.last_name}"
-
+class Symptom(models.Model):
+    nombre = models.CharField(max_length = 250)
 
 class Patient(models.Model):
     # The date and time when the patient was created.
@@ -103,8 +104,12 @@ class Patient(models.Model):
     allergies = models.TextField(blank=True)
     # Any current medications the patient is taking.
     current_medications = models.TextField(blank=True)
+    #nombre= models.CharField(max_length=100)
+    symptoms = models.ManyToManyField(Symptom)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
-
+    def assign_symptom(self,  symptom_name):
+            symptom, _ = Symptom.objects.get_or_create(nombre=symptom_name)
+            self.symptoms.add(symptom)

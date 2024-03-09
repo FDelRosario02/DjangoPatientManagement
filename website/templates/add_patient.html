@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %} 
+
+
 <h1>Add Patient</h1>
 </br>
+<div class="contenedor-padre">
 <form method='POST' action="{%url 'add_patient' %}" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
@@ -11,7 +14,11 @@
 
     <button type="submit" class="btn btn-primary">Add</button>
     <a href="{% url "home" %}" class="btn btn-secondary">Back</a>
+    {% comment %} <a href="{% url "asign_symptom" %}" class="btn btn-secondary">asign_symptom</a> {% endcomment %}
 </form>
-
+</br>
+</br>
+</br>
+</div>
 
 {% endblock %}

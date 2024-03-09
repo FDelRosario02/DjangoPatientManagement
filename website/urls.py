@@ -14,19 +14,37 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
 from django.urls import path
 from . import views
+
 urlpatterns = [
     path('', views.home, name='home'),
     path('home/', views.home, name='home'),
-    #path('login/', views.login_user, name='login'),
     path('logout/', views.logout_user, name='logout'),
     path('register/', views.register_user, name='register'),
     path('record/<int:pk>', views.costumer_record, name='record'),
-    path('delete_record/<int:pk>', views.delete_record, name='delete_record'),
-    path('update_record/<int:pk>', views.update_record, name='update_record'),
+    path('delete_patient/<int:pk>', views.delete_patient, name='delete_patient'),
+    path('update_patient/<int:pk>', views.update_patient, name='update_patient'),
     path('add_record/', views.add_record, name='add_record'),
     path('patient/<int:pk>', views.patient_record, name='patient'),
     path('add_patient/', views.add_patient, name='add_patient'),
 ]
+
+# from django.urls import path
+# from . import views
+# urlpatterns = [
+#     path('', views.home, name='home'),
+#     path('home/', views.home, name='home'),
+#     #path('login/', views.login_user, name='login'),
+#     path('logout/', views.logout_user, name='logout'),
+#     path('register/', views.register_user, name='register'),
+#     path('record/<int:pk>', views.costumer_record, name='record'),
+#     path('delete_patient/<int:pk>', views.delete_patient, name='delete_patient'),
+#     path('update_patient/<int:pk>', views.update_patient, name='update_patient'),
+#     path('add_record/', views.add_record, name='add_record'),
+#     path('patient/<int:pk>', views.patient_record, name='patient'),
+#     path('add_patient/', views.add_patient, name='add_patient'),
+#     #path('asign_symptom/', views.asign_symptoms, name='asign_symptom'),
+#     path('asign_symptoms/<int:patient_id>/', views.asign_symptoms, name='asign_symptoms'),
+
+#]

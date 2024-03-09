@@ -71,6 +71,9 @@ class AddRecordForm(forms.ModelForm):
         model =Record
         exclude = ("user", )
 
+class Asign_SymptomForm(forms.Form):
+    symptom =forms.CharField(max_length=250, required=True, help_text="Write the Symptom separete with comma")
+
 class AddPatientForm(forms.ModelForm):
     first_name = forms.CharField(
         required=True,
@@ -123,12 +126,57 @@ class AddPatientForm(forms.ModelForm):
         widget=forms.widgets.Textarea(attrs={"placeholder": "Current Medications", "class": "form-control", "rows": 3}),
         label=""
     )
-
+    
     class Meta:
         model = Patient
-        exclude = ("user", )
+        fields = ['first_name', 'last_name', 'date_of_birth', 'gender', 'address', 'phone', 'email', 'blood_type', 'allergies', 'current_medications', 'symptoms']
+
     def __init__(self, *args, **kwargs):
         super(AddPatientForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
             field.label = ""
+
+    def save(self, commit=True):
+        patient = super(AddPatientForm, self).save(commit=False)
+
+        # Check if symptoms are provided
+        symptoms_data = self.cleaned_data.get('symptoms', '')
+        if symptoms_data:
+            # Procesar los síntomas ingresados y asignarlos al paciente
+            symptoms = symptoms_data.split(',')
+            for symptom_name in symptoms:
+                patient.assign_symptom(symptom_name.strip())
+
+        if commit:
+            patient.save()
+
+        return patient
+    # def save(self, commit=True):
+    #     patient = super(AddPatientForm, self).save(commit=False)
+
+    #     # Procesar los síntomas ingresados y asignarlos al paciente
+    #     symptoms = self.cleaned_data['symptoms'].split(',')
+    #     for symptom_name in symptoms:
+    #         patient.assign_symptom(symptom_name.strip())
+
+    #     if commit:
+    #         patient.save()
+
+    #     return patient
+
+    # symptoms = forms.CharField(
+    #     required=False,
+    #     widget=forms.widgets.TextInput(attrs={"placeholder": "Enter symptoms (comma-separated)", "class": "form-control"}),
+    #     label="Symptoms"
+    # )
+
+    # class Meta:
+    #     model = Patient
+    #     fields = ['first_name', 'last_name', 'date_of_birth', 'gender', 'address', 'phone', 'email', 'blood_type', 'allergies', 'current_medications', 'symptoms']
+
+    # def __init__(self, *args, **kwargs):
+    #     super(AddPatientForm, self).__init__(*args, **kwargs)
+    #     for field_name, field in self.fields.items():
+    #         field.widget.attrs.update({'class': 'form-control'})
+    #         field.label = ""
